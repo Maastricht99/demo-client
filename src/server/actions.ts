@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 export async function getMyProducts() {
-    const res = await fetch("http://localhost:4000/products?userId=24530008-9004-48bc-bf4f-906a8af30a2f", {
-        cache: "no-store"
-    });
+    const res = await fetch("http://localhost:4000/products?userId=24530008-9004-48bc-bf4f-906a8af30a2f", { cache: "no-store" });
 
     if (!res.ok) {
         throw new Error("Something went wrong...");
@@ -27,6 +28,9 @@ export async function addNewPost(payload: any) {
     });
 
     if (!res.ok) {
-        throw new Error();
+        throw new Error("Something went wrong...");
     }
+
+    revalidatePath("/products");
+    redirect("/products");
 }

@@ -3,8 +3,6 @@
 import { Input } from "@/components/ui/input";
 import { addNewPost } from "@/server/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,19 +20,8 @@ export default function NewProduct() {
         resolver: zodResolver(schema)
     });
 
-    const router = useRouter();
-    const queryClient = useQueryClient();
-
-    const { mutate } = useMutation({
-        mutationFn: addNewPost,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["products"]});
-            router.replace("/products");
-        }
-    }) 
-
     return (
-        <form onSubmit={handleSubmit(payload => mutate(payload))}>
+        <form onSubmit={handleSubmit(payload => addNewPost(payload))}>
             <label>Name</label>
             <Input {...register("name")} type="text" />
             { errors.name ? <p>Name is not valid.</p> : null }
