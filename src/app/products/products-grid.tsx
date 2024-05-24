@@ -30,13 +30,13 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
             }
         };
 
-    }, [])
+    }, [products, router])
 
     return (
         <div className="grid grid-cols-4 gap-4 ml-10 mr-10">
             {
                 products.map((product: any) => {
-                    return <ProductCard product={product} />
+                    return <ProductCard key={product.id} product={product} />
                 })
             }
         </div>

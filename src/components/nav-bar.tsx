@@ -32,7 +32,7 @@ export default function NavBar() {
                    {
                     routes.map(route => {
                         return (
-                            <NavLink href={route.href}>
+                            <NavLink key={route.href} href={route.href}>
                                 { route.name }
                             </NavLink>
                         )

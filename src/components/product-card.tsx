@@ -7,7 +7,7 @@ interface ProductCardProps {
         name: string;
         description: string;
         startingPrice?: number;
-        status: "PENDING" | "AUCTIONABLE" | "AUCTIONED";        
+        status: "PENDING" | "AUCTIONED";        
     }
 }
 
@@ -26,9 +26,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             <CardFooter>
                 <div className="flex w-full justify-between">
                     <div>
-                        {
-                            product.status === "AUCTIONABLE" ? <Link href={`/products/${product.id}/auction`}>Auction</Link> : null
-                        }
                     </div>
                     <div>
                         {
