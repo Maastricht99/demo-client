@@ -1,11 +1,12 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
 
 interface ProductCardProps {
     product: {
         id: number;
         name: string;
         description: string;
-        price?: number;
+        startingPrice?: number;
         status: "PENDING" | "AUCTIONABLE" | "AUCTIONED";        
     }
 }
@@ -26,13 +27,13 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <div className="flex w-full justify-between">
                     <div>
                         {
-                            product.status === "AUCTIONABLE" ? <p>Auctionable</p> : null
+                            product.status === "AUCTIONABLE" ? <Link href={`/products/${product.id}/auction`}>Auction</Link> : null
                         }
                     </div>
                     <div>
                         {
-                            product.price ? (
-                                <p>Price: { product.price}$</p>
+                            product.startingPrice ? (
+                                <p>Price: { product.startingPrice}$</p>
                             ) : (
                                 <p>Calculating price...</p>
                             )

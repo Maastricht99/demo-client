@@ -1,36 +1,48 @@
-import Link from "next/link";
-import ProductCard from "./_components/product-card";
+"use client";
 
-const products = [
-    {
-        id: 0,
-        name: "xxx",
-        description: "Product practically new, never used. 3000 kms weyfeyh rvfyhrfbhrfb3er frhbfeibrfgeyirhb",
-        status: "PENDING" as "PENDING"
-    },
-    {
-        id: 1,
-        name: "xxx ceirhbve frjbeurbv vebjrfviej",
-        description: "xxx",
-        price: 200,
-        status: "AUCTIONED" as "AUCTIONED"
-    },
-    {
-        id: 2,
-        name: "xxx",
-        description: "xxx",
-        price: 200,
-        status: "AUCTIONABLE" as "AUCTIONABLE"
-    },
-]
+import Link from "next/link";
+import ProductCard from "../../components/product-card";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMyProducts } from "@/server/actions";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function Products() {
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["products"],
+        queryFn: () => getMyProducts()
+    });
+
+    const queryClient = useQueryClient();
+
+    React.useEffect(() => {
+        let interval: NodeJS.Timeout;
+
+        if (!data) {
+            return;
+        } 
+
+        const isAnyProductPending = data.some(product => product.status === "PENDING");
+
+        if (isAnyProductPending) {
+            console.log("some products pending")
+            interval = setInterval(() => {
+                console.log("refetching")
+                queryClient.invalidateQueries({ queryKey: ["products"] })
+            }, 3000)
+        }
+
+        return () => clearInterval(interval);
+
+    }, [data])
+
     return (
         <>
             <h1>Products</h1>
             <div className="grid grid-cols-4 gap-4 ml-10 mr-10">
                 {
-                    products.map(product => {
+                    data?.map((product: any) => {
                         return <ProductCard product={product} />
                     })
                 }
