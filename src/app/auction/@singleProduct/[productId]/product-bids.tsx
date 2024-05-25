@@ -3,7 +3,8 @@
 import { useSocket } from "@/hooks/use-socket";
 import { useParams } from "next/navigation";
 import React from "react";
-import { Bid } from "../auctioned-products";
+import { Bid } from "../../@productsList/auctioned-products";
+import { Card, CardContent } from "@/components/ui/card";
 
 
 
@@ -52,7 +53,18 @@ export default function ProductBids() {
     return (
         <>
             <h1>Product bids</h1>
-            <p>{JSON.stringify(bids)}</p>
+            {
+                bids.map(bid => {
+                    return (
+                        <Card>
+                            <CardContent>
+                                <p>{ bid.userFirstName + " " + bid.userLastName} offered { bid.amount } $</p>
+                                <p>{ bid.createdAt }</p>
+                            </CardContent>
+                        </Card>
+                    )
+                })
+            }
         </>
     )
 }

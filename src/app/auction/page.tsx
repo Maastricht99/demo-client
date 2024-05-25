@@ -1,4 +1,4 @@
-import AuctionedProducts from "./auctioned-products";
+import AuctionedProducts from "./@productsList/auctioned-products";
 
 export default function Auction() {
     return (

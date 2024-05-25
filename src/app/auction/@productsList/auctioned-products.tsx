@@ -45,6 +45,7 @@ export default function AuctionedProducts() {
                     if (p.id === payload.productId) {
                         return {
                             ...p,
+                            currentPrice: payload.amount,
                             lastBid: {
                                 id: payload.id,
                                 amount: payload.amount,
@@ -69,11 +70,11 @@ export default function AuctionedProducts() {
 
     }, [socket]);
 
-    function bidOnProduct(productId: string) {
+    function bidOnProduct(productId: string, amount: number) {
         const bid = {
             productId,
             userId: currentUserId,
-            amount: 300
+            amount
         }
 
         if (socket) {
@@ -103,15 +104,20 @@ export default function AuctionedProducts() {
     return (
         <>
             <h1>Auctioned Products</h1>
+            <div className="grid grid-cols-4 gap-10 m-20">
             {
                 products.map(p => {
                     return (
                                 <Card>
                                 <CardHeader>
+                                    <Link href={`/auction/${p.id}`}>
+                                        <div style={{ height: 200, width: 150, backgroundColor: "red" }} />
+                                    </Link>
                                 </CardHeader>
                                 <CardContent>
                                     <p>{p.name}</p>
                                     <p>{p.description }</p>
+                                    <p>Current Price: {p.currentPrice} $</p>
                                 </CardContent>
                                 <CardFooter>
                                     {
@@ -123,13 +129,14 @@ export default function AuctionedProducts() {
         
                                         ) : <p>No bids</p>
                                     }
-                                    <Button onClick={() => bidOnProduct(p.id)}>Bid</Button>
+                                    <Button onClick={() => bidOnProduct(p.id, p.currentPrice + 10)}>Bid { p.currentPrice + 10 } $</Button>
                                 </CardFooter>
                             </Card>
 
                     )
                 })
             }
+            </div>
         </>
     )
 }
