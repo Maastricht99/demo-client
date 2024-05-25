@@ -1,10 +1,11 @@
 "use server";
 
+import { currentUserId } from "@/currentUserId";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function getMyProducts() {
-    const res = await fetch("http://localhost:4000/products?userId=24530008-9004-48bc-bf4f-906a8af30a2f", { cache: "no-store" });
+    const res = await fetch(`http://localhost:4040/products?userId=${currentUserId}`, { cache: "no-store" });
 
     if (!res.ok) {
         throw new Error("Something went wrong...");
@@ -16,9 +17,9 @@ export async function getMyProducts() {
 
 export async function addNewPost(payload: any) {
 
-    const body = { ...payload, creatorId: "24530008-9004-48bc-bf4f-906a8af30a2f" };
+    const body = { ...payload, creatorId: currentUserId };
 
-    const res = await fetch("http://localhost:4000/products", {
+    const res = await fetch("http://localhost:4040/products", {
         method: "POST",
         body: JSON.stringify(body),
         headers: {

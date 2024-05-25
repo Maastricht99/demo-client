@@ -6,7 +6,7 @@ interface ProductCardProps {
         id: number;
         name: string;
         description: string;
-        startingPrice?: number;
+        currentPrice?: number;
         status: "PENDING" | "AUCTIONED";        
     }
 }
@@ -29,8 +29,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
                     <div>
                         {
-                            product.startingPrice ? (
-                                <p>Price: { product.startingPrice}$</p>
+                            product.currentPrice ? (
+                                <p>Price: { product.currentPrice}$</p>
                             ) : (
                                 <p>Calculating price...</p>
                             )
