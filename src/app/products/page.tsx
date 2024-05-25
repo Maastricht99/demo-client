@@ -1,13 +1,10 @@
-import Link from "next/link";
-import ProductCard from "../../components/product-card";
 import { getMyProducts } from "@/server/actions";
-import React, { Suspense } from "react";
-import { useRouter } from "next/navigation";
-import ProductsGrid from "./products-grid";
+import { Suspense } from "react";
 import ProductsContainer from "./products-container";
+import Link from "next/link";
+import AddProductDialog from "./add-product-dialog";
 
-export default async function ProductsPage() {
-
+export default async function ProductsList() {
     const products = await getMyProducts();
 
     return (
@@ -16,7 +13,7 @@ export default async function ProductsPage() {
             <Suspense fallback={<p>Loading</p>}>
                 <ProductsContainer />
             </Suspense>
-            <Link href="/products/new">Add</Link>
+            <AddProductDialog />
         </>
     )
 }
