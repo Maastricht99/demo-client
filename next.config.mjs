@@ -7,6 +7,10 @@ const nextConfig = {
             "encrypted-tbn0.gstatic.com",
             "encrypted-tbn0.gstatic.com"
         ]
+    },
+    env: { 
+        httpHost: process.env.HTTP_HOST,
+        wsHost: process.env.WS_HOST
     }
 };
 

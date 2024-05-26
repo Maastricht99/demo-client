@@ -14,7 +14,7 @@ export default function AuctionedProductsList() {
     const [newProductToAnimateId, setNewProductToAnimateId] = React.useState("");
     const [newBidProductToAnimateId, setNewBidProductToAnimateId] = React.useState("");
 
-    const socket = useSocket("ws://localhost:4040");
+    const socket = useSocket(process.env.wsHost as string);
 
     function bidOnProduct(productId: string, amount: number) {
         const bid = {

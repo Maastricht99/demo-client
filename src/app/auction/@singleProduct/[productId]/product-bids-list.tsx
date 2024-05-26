@@ -16,7 +16,7 @@ export default function ProductBids() {
 
     const [animate, setAnimate] = React.useState(false);
 
-    const socket = useSocket("ws://localhost:4040");
+    const socket = useSocket(process.env.wsHost as string);
 
     React.useEffect(() => {
         if (socket) {
