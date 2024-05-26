@@ -14,21 +14,12 @@ export default function NavBar() {
     ];
 
     return (
-        <div style={{ 
-            width: "100%", 
-            paddingTop: 20, 
-            paddingBottom: 20,
-            paddingLeft: 100,
-            paddingRight: 100,
-            display: "flex", 
-            justifyContent: "space-between",
-            border: "2px solid lightgray"
-        }}>
+        <div className="w-full flex justify-between items-center pt-[30px] pb-[30px] pl-[100px] pr-[100px] bg-black shadow-lg">
             <div>
-                <h1>xxx</h1>
+                <h1 className="text-[35px] font-bold text-white">4Bid</h1>
             </div>
             <nav>
-                <ul style={{ display: "flex", gap: 10}}>
+                <ul className="flex gap-[30px]">
                    {
                     routes.map(route => {
                         return (

@@ -15,6 +15,17 @@ export async function getMyProducts() {
     return products as any[];
 }
 
+export async function getProductById(productId: string) {
+    const res = await fetch(`http://localhost:4040/products/${productId}`, { cache: "no-store" });
+
+    if (!res.ok) {
+        throw new Error("Something went wrong...");
+    }
+
+    const product = await res.json();
+    return product;
+}
+
 export async function addNewPost(payload: any) {
 
     const body = { ...payload, creatorId: currentUserId };

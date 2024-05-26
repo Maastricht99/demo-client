@@ -6,12 +6,17 @@ import { currentUserId } from "@/currentUserId";
 import { useSocket } from "@/hooks/use-socket";
 import Link from "next/link";
 import React from "react";
+import NewBidDialog from "./new-bid-dialog";
+import Image from "next/image";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 interface AuctionedProduct {
     id: string;
     name: string;
     description: string;
     currentPrice: number;
+    pictureUrl: string;
     lastBid: Bid | null;
 }
 
@@ -28,7 +33,6 @@ export interface Bid {
 export default function AuctionedProducts() {
 
     const [products, setProducts] = React.useState<AuctionedProduct[]>([]);
-    // on connect, retrieve all products
 
     const socket = useSocket("ws://localhost:4040");
 
@@ -53,7 +57,7 @@ export default function AuctionedProducts() {
                                 userId: payload.userId,
                                 userFirstName: payload.userFirstName,
                                 userLastName: payload.userLastName
-                            } as any
+                            } as Bid
                         }
                     }
 
@@ -94,44 +98,57 @@ export default function AuctionedProducts() {
         }
     }, [])
 
-    // on connection, receive list of products, set product
-
-    // on product added, receive new product, push to list
-
-    // on bid added, receive data, update product 
-
 
     return (
         <>
-            <h1>Auctioned Products</h1>
-            <div className="grid grid-cols-4 gap-10 m-20">
+            <div className="flex flex-wrap gap-x-[10px] gap-y-[20px]">
             {
-                products.map(p => {
+                products.length === 0 ? <p>Loading</p> : products.map(p => {
                     return (
-                                <Card>
-                                <CardHeader>
-                                    <Link href={`/auction/${p.id}`}>
-                                        <div style={{ height: 200, width: 150, backgroundColor: "red" }} />
-                                    </Link>
-                                </CardHeader>
-                                <CardContent>
-                                    <p>{p.name}</p>
-                                    <p>{p.description }</p>
-                                    <p>Current Price: {p.currentPrice} $</p>
-                                </CardContent>
-                                <CardFooter>
-                                    {
-                                        p.lastBid !== null ? (
-                                            <>
-                                            <p>Last Bidder: { p.lastBid.userFirstName + " " + p.lastBid.userLastName }</p>
-                                            <p>{ p.lastBid.amount }$</p>
-                                            </>
-        
-                                        ) : <p>No bids</p>
-                                    }
-                                    <Button onClick={() => bidOnProduct(p.id, p.currentPrice + 10)}>Bid { p.currentPrice + 10 } $</Button>
-                                </CardFooter>
-                            </Card>
+                        <Card className="w-[300px] bg-white shadow-lg rounded-lg overflow-hidden">
+                        <CardHeader className="p-0">
+                          <Link href={`/auction/${p.id}`} className="relative">
+                          <div className="relative w-full h-[200px] flex-shrink-0">
+
+<Image 
+    src={p.pictureUrl} 
+    alt="product" 
+    className="rounded-lg"
+    objectFit="cover"
+    layout="fill"
+/>
+</div>
+                          </Link>
+                        </CardHeader>
+                        <CardContent className="p-[10px] h-[110px]">
+                          <h1 className="text-xl font-bold truncate">{p.name}</h1>
+                          <p className="text-gray-700 line-clamp-2 mt-[10px] mb-[20px]">{p.description}</p>
+                        </CardContent>
+                        <CardFooter className="flex justify-between items-center pt-[20px]">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                <p className="text-lg font-bold text-black">{p.currentPrice} $</p>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                {p.lastBid ? (
+                              <p className="text-sm text-gray-600">
+                                <span className="font-semibold">{ p.lastBid.userId === currentUserId ? "You" : p.lastBid.userFirstName + " " + p.lastBid.userLastName}</span><span> made the last offer.</span>
+                              </p>
+                            ) : (
+                              <p className="text-sm text-gray-600">No offers yet.</p>
+                            )}
+                                </TooltipContent>
+                            </Tooltip>
+                            </TooltipProvider>
+                          <NewBidDialog 
+                            name={p.name} 
+                            productId={p.id} 
+                            handleAddNewBid={bidOnProduct}
+                          >
+                          </NewBidDialog>
+                        </CardFooter>
+                      </Card>
 
                     )
                 })

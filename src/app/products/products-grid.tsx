@@ -1,6 +1,6 @@
 "use client";
 
-import ProductCard from "@/components/product-card";
+import MyProductCard from "@/components/my-product-card";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -33,10 +33,10 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
     }, [products, router])
 
     return (
-        <div className="grid grid-cols-4 gap-4 ml-10 mr-10">
+        <div className="w-full flex flex-wrap gap-x-[10px] gap-y-[20px] p-[40px] overflow-auto">
             {
                 products.map((product: any) => {
-                    return <ProductCard key={product.id} product={product} />
+                    return <MyProductCard key={product.id} product={product} />
                 })
             }
         </div>

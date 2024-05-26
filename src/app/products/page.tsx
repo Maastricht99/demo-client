@@ -8,12 +8,16 @@ export default async function ProductsList() {
     const products = await getMyProducts();
 
     return (
-        <>
-            <h1>Products</h1>
+        <div className="flex flex-col items-center">
+            <div className="w-full flex justify-between p-[30px] pl-[60px] pr-[60px]">
+                <h1 className="text-[30px] font-bold">
+                    My Products
+                </h1>
+                <AddProductDialog />
+            </div>
             <Suspense fallback={<p>Loading</p>}>
                 <ProductsContainer />
             </Suspense>
-            <AddProductDialog />
-        </>
+        </div>
     )
 }

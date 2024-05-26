@@ -13,7 +13,7 @@ export default function NavLink({ href, children }: NavLinkProps) {
     const isActive = pathName.startsWith(href);
 
     return (
-        <Link href={href} className={`${isActive ? "text-red-500" : "text-black"}`}>
+        <Link href={href} className={`text-white font-bold p-[5px] ${isActive && "mb-2 border-b-2 border-white"}`}>
             { children }
         </Link>
     )

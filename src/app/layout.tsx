@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/nav-bar";
 import React from "react";
@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: "Auction Demo App"
 };
 
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,9 +24,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-          <NavBar />
-          {children}
+      <body className="bg-gray-200">
+        <NavBar />
+            {children}
       </body>
     </html>
   );
