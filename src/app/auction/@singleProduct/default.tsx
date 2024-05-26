@@ -1,3 +1,3 @@
-export default function SingleProductDefault() {
+export default function AuctionedSingleProductPageDefault() {
     return <></>
 }

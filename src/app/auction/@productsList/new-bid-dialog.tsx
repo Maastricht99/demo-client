@@ -17,25 +17,26 @@ export default function NewBidDialog({ name, productId, handleAddNewBid }: NewBi
 
     return (
         <>
-            <Button                             
-onClick={() => setIsDialogOpen(true)}>Make An Offer</Button>
+            <Button onClick={() => setIsDialogOpen(true)}>
+                <p className="font-bold">Make An Offer</p>
+            </Button>
             <Dialog onOpenChange={(value) => setIsDialogOpen(value)} open={isDialogOpen}>
-   
                 <DialogContent>
-                <DialogHeader>
-                <h1 className="text-[20px] font-bold">Make an offer for { name }</h1>
+                    <DialogHeader>
+                        <h1 className="text-[20px] font-bold">Make an offer for { name }</h1>
+                    </DialogHeader>
 
-                </DialogHeader>
                     <Input type="number" onChange={(e) => setAmount(+e.target.value)}/>
+
                     <DialogFooter>
-                    <Button 
-                        onClick={() => {
-                            handleAddNewBid(productId, amount);
-                            setIsDialogOpen(false);
-                        }}
-                    >
-                        Offer
-                    </Button>
+                        <Button 
+                            onClick={() => {
+                                handleAddNewBid(productId, amount);
+                                setIsDialogOpen(false);
+                            }}
+                        >
+                            <p className="font-bold">Make An Offer</p>
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

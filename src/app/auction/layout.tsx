@@ -1,8 +1,13 @@
-export default function AuctionLayout(x: any) {
+interface AuctionLayoutProps {
+    productsList: React.ReactNode;
+    singleProduct: React.ReactNode;
+}
+
+export default function AuctionLayout({ productsList, singleProduct }: AuctionLayoutProps) {
     return (
         <div className="h-full flex">
-                { x.productsList }
-                { x.singleProduct }
+            { productsList }
+            { singleProduct }
         </div>
     )
 }

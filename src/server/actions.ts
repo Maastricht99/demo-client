@@ -12,6 +12,7 @@ export async function getMyProducts() {
     }
 
     const products = await res.json();
+
     return products as any[];
 }
 

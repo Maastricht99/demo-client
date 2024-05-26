@@ -3,7 +3,8 @@
 import { useSocket } from "@/hooks/use-socket";
 import { useParams } from "next/navigation";
 import React from "react";
-import { Bid } from "../../@productsList/auctioned-products";
+import { Bid } from "../../@productsList/auctioned-products-list";
+import { currentUserId } from "@/currentUserId";
 import { Card, CardContent } from "@/components/ui/card";
 
 
@@ -14,7 +15,6 @@ export default function ProductBids() {
     const [bids, setBids] = React.useState<Bid[]>([]);
 
     const [animate, setAnimate] = React.useState(false);
-
 
     const socket = useSocket("ws://localhost:4040");
 
@@ -41,36 +41,28 @@ export default function ProductBids() {
         if (animate) {
             const timer = setTimeout(() => {
               setAnimate(false);
-            }, 1000);
+            }, 2000);
             return () => clearTimeout(timer);
           }
-    }, [animate])
-
-    React.useEffect(() => {
-        if (socket) {
-            socket.connect();
-        };
-
-        return () => {
-            if (socket) {
-                socket.disconnect();
-            }
-        }
-    }, [])
+    }, [animate]);
 
 
     return (
-<div className="flex-1 overflow-y-auto p-4 bg-white shadow-lg">
-          <h2 className="text-xl font-bold mb-2">Offers</h2>
-          <ul className="space-y-4">
-            {bids.length === 0 ? <p>No offers for this product.</p> : bids.map((bid, index) => (
-              <li key={index} className={`border-b pb-2 ${index === 0 && animate ? "bg-red-300" : "" }`}>
-                <p className="text-gray-800 font-medium">{bid.userFirstName} {bid.userLastName}</p>
-                <p className="text-gray-600">{bid.amount} $</p>
-                <p className="text-gray-500 text-sm">{new Date(bid.createdAt).toLocaleString()}</p>
-              </li>
-            ))}
-          </ul>
+        <div className="flex-1 p-4 bg-white shadow-lg">
+            <h2 className="text-xl pl-[10px] pt-[10px] font-bold mb-2">Offers</h2>
+            <ul className="space-y-1">
+                {bids.length === 0 ? <p>No offers for this product.</p> : bids.map((bid, index) => (
+                    <Card key={index} className={` shadow-md p-1 duration-300 ease-in-out rounded-lg ${index === 0 && animate ? "bg-green-200" : "" }`}>
+                            <p className="text-gray-800 font-bold pl-[5px]">
+                                {
+                                    bid.userId === currentUserId ? "You" : bid.userFirstName + " " + bid.userLastName
+                                }
+                            </p>
+                            <p className="text-gray-500 font-semibold pt-[5px] pl-[5px]">{bid.amount} $</p>
+                            <p className="text-gray-500 text-sm  pl-[5px] pb-[5px]">{new Date(bid.createdAt).toLocaleString()}</p>
+                    </Card>
+                ))}
+            </ul>
         </div>
     )
 }

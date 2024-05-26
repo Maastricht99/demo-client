@@ -1,14 +1,14 @@
 "use client";
 
-import MyProductCard from "@/components/my-product-card";
 import { useRouter } from "next/navigation";
 import React from "react";
+import MyProductCard from "./my-product-card";
 
-interface ProductsGridProps {
+interface MyProductsListProps {
     products: any[];
 }
 
-export default function ProductsGrid({ products }: ProductsGridProps) {
+export default function MyProductsList({ products }: MyProductsListProps) {
 
     const router = useRouter();
 

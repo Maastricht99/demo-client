@@ -1,5 +1,5 @@
-import ProductsListPage from "./page";
+import AuctionedProductsListPage from "./page";
 
-export default function ProductsListDefault() {
-    return <ProductsListPage />
+export default function AuctionedProductsListPageDefault() {
+    return <AuctionedProductsListPage />
 }
