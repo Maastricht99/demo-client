@@ -11,9 +11,7 @@ export default function MyProductsPage() {
                 <h1 className="text-[30px] font-bold">
                     My Products
                 </h1>
-                <Suspense>
-                    <AddProductDialog />
-                </Suspense>
+                <AddProductDialog />
             </div>
             <Suspense fallback={<MyProductsListSkeleton />}>
                 <MyProductsListContainer />

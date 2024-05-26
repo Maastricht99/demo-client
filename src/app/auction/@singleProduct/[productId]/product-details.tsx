@@ -1,7 +1,9 @@
+import { IProductDetails } from "@/types";
 import Image from "next/image";
 
+
 interface ProductDetailsProps {
-    product: any;
+    product: IProductDetails;
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {

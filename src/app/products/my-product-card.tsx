@@ -2,16 +2,10 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ReloadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Badge } from "../../components/ui/badge";
+import { IMyProduct } from "@/types";
 
 interface ProductCardProps {
-    product: {
-        id: number;
-        name: string;
-        description: string;
-        currentPrice?: number;
-        pictureUrl: string;
-        status: "PENDING" | "AUCTIONED";        
-    }
+    product: IMyProduct;
 }
 
 export default function MyProductCard({ product }: ProductCardProps) {

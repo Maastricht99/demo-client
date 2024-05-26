@@ -5,66 +5,65 @@ import { useSocket } from "@/hooks/use-socket";
 import React from "react";
 import AuctionedProductCardSkeleton from "./auctioned-product-card-skeleton";
 import AuctionedProductCard from "./auctioned-product-card";
+import { IAuctionedProduct, IBid } from "@/types";
 
-interface AuctionedProduct {
-    id: string;
-    name: string;
-    description: string;
-    currentPrice: number;
-    pictureUrl: string;
-    lastBid: Bid | null;
-}
-
-export interface Bid {
-    id: string;
-    productId?: string;
-    userId: string;
-    userFirstName: string;
-    userLastName: string; 
-    amount: number;
-    createdAt: string;
-}
 
 export default function AuctionedProductsList() {
 
-    const [products, setProducts] = React.useState<AuctionedProduct[]>([]);
+    const [products, setProducts] = React.useState<IAuctionedProduct[]>([]);
     const [newProductToAnimateId, setNewProductToAnimateId] = React.useState("");
     const [newBidProductToAnimateId, setNewBidProductToAnimateId] = React.useState("");
 
     const socket = useSocket("ws://localhost:4040");
 
+    function bidOnProduct(productId: string, amount: number) {
+        const bid = {
+            productId,
+            userId: currentUserId,
+            amount
+        }
+
+        if (socket) {
+            socket.emit("addNewBid", bid);
+        }
+    }
+
+    function handleNewBidAdded(bid: IBid) {
+        setProducts(prev => prev.map(p => {
+            if (p.id === bid.productId) {
+                return {
+                    ...p,
+                    currentPrice: bid.amount,
+                    lastBid: {
+                        id: bid.id,
+                        amount: bid.amount,
+                        createdAt: bid.createdAt,
+                        userId: bid.userId,
+                        userFirstName: bid.userFirstName,
+                        userLastName: bid.userLastName
+                    } as IBid
+                }
+            }
+
+            return p;
+        }))
+
+        setNewBidProductToAnimateId(bid.productId!);
+    }
+
     React.useEffect(() => {
         if (socket) {
             socket.emit("requestInitialAuctionedProducts");
 
-            socket.on("sendInitialAuctionedProducts", (payload: AuctionedProduct[]) => {
+            socket.on("sendInitialAuctionedProducts", (payload: IAuctionedProduct[]) => {
                 setProducts(payload);
             });
 
-            socket.on("newBidAdded", (payload: Bid) => {
-                setProducts(prev => prev.map(p => {
-                    if (p.id === payload.productId) {
-                        return {
-                            ...p,
-                            currentPrice: payload.amount,
-                            lastBid: {
-                                id: payload.id,
-                                amount: payload.amount,
-                                createdAt: payload.createdAt,
-                                userId: payload.userId,
-                                userFirstName: payload.userFirstName,
-                                userLastName: payload.userLastName
-                            } as Bid
-                        }
-                    }
-
-                    return p;
-                }))
-
-                setNewBidProductToAnimateId(payload.productId!);
+            socket.on("newBidAdded", (payload: IBid) => {
+                handleNewBidAdded(payload);
             });
 
-            socket.on("newProductAdded", (payload: AuctionedProduct) => {
+            socket.on("newProductAdded", (payload: IAuctionedProduct) => {
                 setProducts(prev => [payload, ...prev]);
                 setNewProductToAnimateId(payload.id);
             })
@@ -89,18 +88,6 @@ export default function AuctionedProductsList() {
             return () => clearTimeout(timer);
         }
     }, [newBidProductToAnimateId]);
-
-    function bidOnProduct(productId: string, amount: number) {
-        const bid = {
-            productId,
-            userId: currentUserId,
-            amount
-        }
-
-        if (socket) {
-            socket.emit("addNewBid", bid);
-        }
-    }
 
     return (
         <div className="flex flex-wrap gap-x-[10px] gap-y-[20px]">

@@ -1,6 +1,7 @@
 "use server";
 
 import { currentUserId } from "@/currentUserId";
+import { IMyProduct, IProductDetails } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -13,7 +14,7 @@ export async function getMyProducts() {
 
     const products = await res.json();
 
-    return products as any[];
+    return products as IMyProduct[];
 }
 
 export async function getProductById(productId: string) {
@@ -24,7 +25,7 @@ export async function getProductById(productId: string) {
     }
 
     const product = await res.json();
-    return product;
+    return product as IProductDetails;
 }
 
 export async function addNewPost(payload: any) {

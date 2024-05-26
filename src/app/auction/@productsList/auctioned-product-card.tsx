@@ -6,9 +6,10 @@ import { TooltipContent } from "@radix-ui/react-tooltip";
 import Image from "next/image";
 import Link from "next/link";
 import NewBidDialog from "./new-bid-dialog";
+import { IAuctionedProduct } from "@/types";
 
 interface AuctionedProductCardProps {
-    product: any;
+    product: IAuctionedProduct;
     bidOnProduct(productId: string, amount: number): void;
     isProductNewlyAdded: boolean;
     hasProductNewBid: boolean;

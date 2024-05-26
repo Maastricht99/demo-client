@@ -3,16 +3,16 @@
 import { useSocket } from "@/hooks/use-socket";
 import { useParams } from "next/navigation";
 import React from "react";
-import { Bid } from "../../@productsList/auctioned-products-list";
 import { currentUserId } from "@/currentUserId";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { IBid } from "@/types";
 
 
 
 export default function ProductBids() {
     const params = useParams();
 
-    const [bids, setBids] = React.useState<Bid[]>([]);
+    const [bids, setBids] = React.useState<IBid[]>([]);
 
     const [animate, setAnimate] = React.useState(false);
 
@@ -22,11 +22,11 @@ export default function ProductBids() {
         if (socket) {
             socket.emit("requestInitialProductBids", { productId: params.productId });
 
-            socket.on("sendInitialProduct", (payload: Bid[]) => {
+            socket.on("sendInitialProduct", (payload: IBid[]) => {
                 setBids(payload);
             });
 
-            socket.on("newBidAdded", (payload: Bid) => {
+            socket.on("newBidAdded", (payload: IBid) => {
                 if (payload.productId === params.productId) {
                     setBids(prev => [payload, ...prev]);
                 }
