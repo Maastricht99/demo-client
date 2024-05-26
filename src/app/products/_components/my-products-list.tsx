@@ -36,7 +36,7 @@ export default function MyProductsList({ products }: MyProductsListProps) {
     return (
         <div className="w-full flex flex-wrap gap-x-[10px] gap-y-[20px] p-[40px] pt-[10px] overflow-auto">
             {
-                products.map((product: any) => {
+                products.map((product: IMyProduct) => {
                     return <MyProductCard key={product.id} product={product} />
                 })
             }
