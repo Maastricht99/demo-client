@@ -22,7 +22,7 @@ export default function ProductBids() {
         if (socket) {
             socket.emit("requestInitialProductBids", { productId: params.productId });
 
-            socket.on("sendInitialProduct", (payload: IBid[]) => {
+            socket.on("sendInitialProductBids", (payload: IBid[]) => {
                 setBids(payload);
             });
 
