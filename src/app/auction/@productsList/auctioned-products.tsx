@@ -9,7 +9,6 @@ import React from "react";
 import NewBidDialog from "./new-bid-dialog";
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
 
 interface AuctionedProduct {
     id: string;
@@ -33,6 +32,8 @@ export interface Bid {
 export default function AuctionedProducts() {
 
     const [products, setProducts] = React.useState<AuctionedProduct[]>([]);
+    const [newProductToAnimateId, setNewProductToAnimateId] = React.useState("");
+    const [newBidProductToAnimateId, setNewBidProductToAnimateId] = React.useState("");
 
     const socket = useSocket("ws://localhost:4040");
 
@@ -63,16 +64,37 @@ export default function AuctionedProducts() {
 
                     return p;
                 }))
+
+                setNewBidProductToAnimateId(payload.productId!);
             });
 
             socket.on("newProductAdded", (payload: AuctionedProduct) => {
                 setProducts(prev => [payload, ...prev]);
+                setNewProductToAnimateId(payload.id);
             })
 
         
         }
 
     }, [socket]);
+
+React.useEffect(() => {
+    if (newProductToAnimateId) {
+        const timer = setTimeout(() => {
+            setNewProductToAnimateId("");
+        }, 1000);
+        return () => clearTimeout(timer);
+        }
+}, [newProductToAnimateId])
+
+React.useEffect(() => {
+    if (newBidProductToAnimateId) {
+        const timer = setTimeout(() => {
+            setNewBidProductToAnimateId("");
+        }, 1000);
+        return () => clearTimeout(timer);
+        }
+}, [newBidProductToAnimateId])
 
     function bidOnProduct(productId: string, amount: number) {
         const bid = {
@@ -105,7 +127,7 @@ export default function AuctionedProducts() {
             {
                 products.length === 0 ? <p>Loading</p> : products.map(p => {
                     return (
-                        <Card className="w-[300px] bg-white shadow-lg rounded-lg overflow-hidden">
+                        <Card className={`w-[300px] bg-white shadow-lg rounded-lg ${newProductToAnimateId === p.id ? "bg-red-300" : ""}`}>
                         <CardHeader className="p-0">
                           <Link href={`/auction/${p.id}`} className="relative">
                           <div className="relative w-full h-[200px] flex-shrink-0">
@@ -128,7 +150,7 @@ export default function AuctionedProducts() {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                <p className="text-lg font-bold text-black">{p.currentPrice} $</p>
+                                <p className={`text-lg font-bold text-black ${newBidProductToAnimateId === p.id ? "text-green-500" : ""}`}>{p.currentPrice} $</p>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                 {p.lastBid ? (
