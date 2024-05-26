@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { Badge } from "../../components/ui/badge";
+import { Badge } from "../../../components/ui/badge";
 import { IMyProduct } from "@/types";
 
 interface ProductCardProps {

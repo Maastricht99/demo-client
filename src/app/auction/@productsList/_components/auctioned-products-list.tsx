@@ -93,7 +93,7 @@ export default function AuctionedProductsList() {
         <div className="flex flex-wrap gap-x-[10px] gap-y-[20px]">
             {
                 products.length === 0 ? 
-                    new Array(20).fill(0).map(s => <AuctionedProductCardSkeleton />) 
+                    Array.from(Array(20).keys()).map(s => <AuctionedProductCardSkeleton key={s}/>) 
                 : products.map(p => {
                     return (
                         <AuctionedProductCard 
@@ -101,6 +101,7 @@ export default function AuctionedProductsList() {
                             bidOnProduct={bidOnProduct}
                             isProductNewlyAdded={newProductToAnimateId === p.id}
                             hasProductNewBid={newBidProductToAnimateId === p.id}
+                            key={p.id}
                         />
                     )
                 })

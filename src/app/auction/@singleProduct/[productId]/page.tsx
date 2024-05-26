@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import ProductBidsList from "./product-bids-list";
-import ProductDetailsSkeleton from "./product-details-skeleton";
-import ProductDetailsContainer from "./product-details-container";
+import ProductBidsList from "./_components/product-bids-list";
+import ProductDetailsSkeleton from "./_components/product-details-skeleton";
+import ProductDetailsContainer from "./_components/product-details-container";
 
 export default function AuctionedSingleProductPage({ params }: { params: { productId: string }}) {
     const productId = params.productId;

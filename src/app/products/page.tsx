@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import MyProductsListContainer from "./my-products-list-container";
-import AddProductDialog from "./add-product-dialog";
-import MyProductsListSkeleton from "./my-products-list-skeleton";
+import MyProductsListContainer from "./_components/my-products-list-container";
+import AddProductDialog from "./_components/add-product-dialog";
+import MyProductsListSkeleton from "./_components/my-products-list-skeleton";
 
 export default function MyProductsPage() {
 

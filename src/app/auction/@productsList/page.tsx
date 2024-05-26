@@ -1,4 +1,4 @@
-import AuctionedProductsList from "./auctioned-products-list";
+import AuctionedProductsList from "./_components/auctioned-products-list";
 
 export default function AuctionedProductsListPage() {
     return (
