@@ -1,1 +1,1 @@
-export const currentUserId = "1b5b45b7-6ab2-49ea-8cac-1ef81ee64e31";
+export const currentUserId = "ffa27caa-18dd-4c42-9097-aae8654ec1d3";

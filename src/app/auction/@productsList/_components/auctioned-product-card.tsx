@@ -57,7 +57,7 @@ export default function AuctionedProductCard({
                                 { product.currentPrice } $
                             </p>
                         </TooltipTrigger>
-                        <TooltipContent>
+                        <TooltipContent className="p-[3px] bg-white rounded-md" align="start" side="bottom">
                             {product.lastBid ? (
                                 <p className="text-sm text-gray-600">
                                     <span className="font-semibold">{ product.lastBid.userId === currentUserId ? "You" : product.lastBid.userFirstName + " " + product.lastBid.userLastName }</span><span> made the last offer.</span>
