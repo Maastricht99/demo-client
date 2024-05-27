@@ -29,8 +29,8 @@ export default function ProductBids() {
             socket.on("newBidAdded", (payload: IBid) => {
                 if (payload.productId === params.productId) {
                     setBids(prev => [payload, ...prev]);
+                    setAnimate(true);
                 }
-                setAnimate(true);
             })
             
         }
