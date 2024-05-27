@@ -5,7 +5,10 @@ const nextConfig = {
             "fossil.scene7.com",
             "media.wired.com",
             "encrypted-tbn0.gstatic.com",
-            "encrypted-tbn0.gstatic.com"
+            "www.titan.co.in",
+            "images.unsplash.com",
+            "media.rolex.com",
+            "www.audemarspiguet.com"
         ]
     },
     env: { 
